@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Note-taking application | <%= title %></title>
+<meta name="keywords" content="" />
+<meta name="description" content="width=device-width, initial-scale=1" />
+
+<link href="../css/tooplate_style.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="../css/coda-slider.css" type="text/css" charset="utf-8" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<script src="../js/jquery-1.2.6.js" type="text/javascript"></script>
+<script src="../js/jquery.scrollTo-1.3.3.js" type="text/javascript"></script>
+<script src="../js/jquery.localscroll-1.2.5.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery.serialScroll-1.2.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/coda-slider.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery.easing.1.3.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	
+<div id="slider">
+    <div id="tooplate_wrapper">
+    	
+        <div id="tooplate_sidebar">
+        	
+            <div id="header">
+            	<h1><center>Note taker</center></h1>
+            </div>
+
+            <div id="menu">
+                <ul class="navigation">
+                	<li><a href="#my_notes" class="selected">My notes</a></li>
+					<li><a href="#create_note">Create notes +</a></li>
+					<% if (notes.length > 0){ %>
+						<%notes.forEach(note => { %>
+							<li><a href="#<%= note.id %>"><%= note.title %></a></li>
+					<% }) } %>
+                    <li><a href="#edit_note" class="last">Edit notes --</a></li>
+                </ul>
+            </div>
+			
+		</div> <!-- end of sidebar -->  
+    
+        <div id="content">
+       	  	<div class="scroll">
+        	  <div class="scrollContainer">
+                <div class="panel" id="my_notes">
+                	<h2>My Notes</h2>   
+                    <table>
+					  <tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Body</th>
+						<th></th>
+					  </tr>
+
+					  <% var sn = 0;
+					  if (notes.length > 0){ %>
+						  <%notes.forEach(note => { 
+						  sn = sn + 1;
+						  %>
+							  <tr>
+								  <td><%= sn %></td>
+								  <td><%= note.title %></td>
+								  <td>
+										<a href="#<%= note.id %>">
+									  		<i title="View note" class="fa fa-eye" aria-hidden="true"></i>
+										</a>
+								  </td>
+								  <td>
+										<!--<a id="example" title="<%= note.id %>" onclick="myFunction()"><i  class="fa fa-edit"></i></a> | -->
+										<a href="del_note/<%= note.id %>"><i title="Delete note" class="fa fa-trash" aria-hidden="true"></i></a>
+								  </td>
+							  </tr>
+						  <% }) %>
+					  <% } else { %>
+						  <tr><td colspan = "4"> No notes</td></tr>
+					  <% } %>
+
+					</table>
+				</div> <!-- end of home -->
+				
+				
+        	    <div class="panel" id="create_note">
+						<h2>Create new note --</h2>
+						<div class="cleaner h30"></div>
+						<div id="contact_form">
+							<form method="post" name="create_notes" action="/">
+						  
+								<label for="author2">Title:</label><input type="text" id="title" name="title" required />
+								<div class="cleaner h10"></div>
+								
+								<label for="text">Body:</label><textarea id="body" name="message" rows="0" cols="0" required></textarea>
+								<div class="cleaner h10"></div>
+								
+								<button>send</button>
+								<input type="reset" class="submit_btn float_r" name="reset" id="reset" value="Reset" />
+							
+							</form>
+							
+						  </div>
+      	      	</div> <!-- end of about us -->
+				
+				<% if (notes.length > 0){ %>
+					<%notes.forEach(note => { %>
+					<div class="panel" id="<%= note.id %>">
+						<h2><%= note.title %></h2>
+						<h3><%= note.body %>.<h3>
+						<div class="cleaner h20"></div>
+						<ul class="service_list">
+							<li><a href="#my_notes" class="service_five">Back to my notes</a></li>
+							<!--<li><a id="example" title="<%= note.id %>" onclick="myFunction()"><i title="Edit note" class="fa fa-edit"></i></a></li>-->
+							<li><a href="del_note/<%= note.id %>"><i title="Delete note" class="fa fa-trash" aria-hidden="true"></i></a></li>
+						</ul>
+					</div> <!-- end of notes -->
+				<% }) } %>
+				
+        	    <div class="panel" id="edit_note">
+                    <h2>Edit note +</h2>
+                    <div class="cleaner h30"></div>
+                    <div id="edit_note_form">
+                      	<form method="post" name="contact" action="#">
+							<input type="hidden" id="note_id" name="note_id" >
+							<label for="e_title">Title:</label><input type="text" id="e_title" name="e_title" required />
+							<div class="cleaner h10"></div>
+							
+							<label for="e_body">body:</label><textarea id="e_body" name="e_body" rows="0" cols="0" required></textarea>
+							<div class="cleaner h10"></div>
+							
+							<input type="submit" class="submit_btn float_l" name="submit" id="submit" value="Send" />
+						
+                    	</form>
+						
+                  	</div>
+        	  	</div>
+      	  	</div> <!-- end of scroll -->
+		</div>
+		
+        <div class="cleaner"></div>
+	</div>
+    </div> <!-- end of content -->
+	
+    <div id="footer">
+        Copyright © <a href="#">My Eduonix Assingment</a><br />
+	</div>
+
+</div>
+</body>
+</html>
